@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Discover amazing travel destinations and book your perfect vacation with our expert travel agency services">
+    <title>Travel Agency Page</title>
+</head>
+<body>
+    <h1>Discover Amazing Travel Destinations</h1>
+    
+    <p>Welcome to our travel agency! We offer incredible travel opportunities to destinations around the world. Whether you're looking for adventure, relaxation, or cultural experiences, we have the perfect trip for you.</p>
+    
+    <h2>Packages</h2>
+    
+    <p>We offer a variety of travel packages to suit every traveler's needs and budget. From budget-friendly options to luxury experiences, we have something for everyone.</p>
+    
+    <ul>
+        <li><a href="https://www.freecodecamp.org/learn" target="_blank">Group Travels</a></li>
+        <li><a href="https://www.freecodecamp.org/learn" target="_blank">Private Tours</a></li>
+    </ul>
+    
+    <h2>Top Itineraries</h2>
+    
+    <figure>
+        <a href="https://www.freecodecamp.org/learn" target="_blank">
+            <img src="https://cdn.freecodecamp.org/curriculum/labs/colosseo.jpg" alt="The Colosseum in Rome, Italy">
+        </a>
+        <figcaption>Explore the ancient wonders of Rome and experience the grandeur of the Colosseum</figcaption>
+    </figure>
+    
+    <figure>
+        <a href="https://www.freecodecamp.org/learn" target="_blank">
+            <img src="https://cdn.freecodecamp.org/curriculum/labs/alps.jpg" alt="Beautiful mountain landscape in the Alps">
+        </a>
+        <figcaption>Adventure awaits in the stunning Alpine mountains with breathtaking views</figcaption>
+    </figure>
+    
+    <figure>
+        <a href="https://www.freecodecamp.org/learn" target="_blank">
+            <img src="https://cdn.freecodecamp.org/curriculum/labs/sea.jpg" alt="Crystal clear ocean waters and tropical scenery">
+        </a>
+        <figcaption>Relax and unwind in paradise with our tropical beach destinations</figcaption>
+    </figure>
+</body>
+</html>
