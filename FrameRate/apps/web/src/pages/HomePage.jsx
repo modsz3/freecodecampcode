@@ -19,7 +19,7 @@ const NewsletterBox = () => {
   }, []);
   return <div id="newsletter" className="mt-8 border border-border bg-card p-6">
       <p className="display text-xl font-black uppercase leading-tight">The WEEKLY brief</p>
-      <p className="mt-2 text-sm text-muted-foreground">Five headlines across PC, Xbox and PlayStation, every weekday morning.</p>
+      <p className="mt-2 text-sm text-muted-foreground">Top news headlines across PC, Xbox and PlayStation, every Wednesday morning.</p>
       <div id="newsletter-embed" className="mt-4" />
     </div>;
 };
@@ -30,10 +30,10 @@ const HomePage = () => {
   return <div className="grain min-h-screen">
       <Helmet>
         <title>EasyGamerNews — PC, Xbox and PlayStation Gaming News</title>
-        <meta name="description" content="EasyGamerNews is a free gaming news site covering PC, Xbox and PlayStation: daily headlines, hardware analysis, performance testing and industry reporting. No paywall, no membership." />
+        <meta name="description" content="EasyGamerNews is an independent gaming news site covering PC, Xbox and PlayStation: daily headlines, hardware analysis, performance testing and industry reporting. No paywall, no membership." />
         <link rel="canonical" href="/" />
         <meta property="og:title" content="EasyGamerNews — PC, Xbox and PlayStation Gaming News" />
-        <meta property="og:description" content="Free daily gaming news and analysis across PC, Xbox and PlayStation." />
+        <meta property="og:description" content="Weekly gaming news and analysis across PC, Xbox and PlayStation." />
         <meta property="og:type" content="website" />
       </Helmet>
 
