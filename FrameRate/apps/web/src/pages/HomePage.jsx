@@ -7,26 +7,6 @@ import ArticleCard, { PlatformTags } from '@/components/ArticleCard';
 import { PLATFORMS, formatDate } from '@/data/articles';
 import { fetchPublishedArticles } from '@/lib/articlesApi';
 
-const NewsletterBox = () => {
-  React.useEffect(() => {
-    const script = document.createElement('script');
-    script.id = 'form-script-tag-24940342';
-    script.src = 'https://easygamersetups.systeme.io/public/remote/page/432299068613d42eab12b44f23f55f4dd36675f6.js';
-    script.async = true;
-    const container = document.getElementById('newsletter-embed');
-    if (container) {
-      container.appendChild(script);
-    }
-  }, []);
-  return (
-    <div id="newsletter" className="mt-8 border border-border bg-card p-6">
-      <p className="display text-xl font-black uppercase leading-tight">The WEEKLY brief</p>
-      <p className="mt-2 text-sm text-muted-foreground">Top headlines across PC, Xbox and PlayStation, every weekday morning.</p>
-      <div id="newsletter-embed" className="mt-4" />
-    </div>
-  );
-};
-
 const ArticleSkeleton = () => (
   <div className="animate-pulse space-y-3 border-b border-border py-4">
     <div className="h-3 w-16 bg-muted rounded" />
@@ -119,7 +99,6 @@ const HomePage = () => {
                       <ArticleCard key={a.id || a.slug} article={a} variant="row" index={i} />
                     ))}
                   </div>
-                  <NewsletterBox />
                 </aside>
               </>
             ) : (
