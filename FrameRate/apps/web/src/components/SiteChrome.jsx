@@ -4,7 +4,7 @@ import { Menu, X, Gamepad2 } from 'lucide-react';
 import { PLATFORMS } from '@/data/articles';
 
 const SYSTEME_SCRIPT_ID = 'form-script-tag-24940342';
-const SYSTEME_SCRIPT_SRC = 'https://easygamersetups.systeme.io/public/remote/page/432299068613d42eab12b44f23f55f4dd36675f6.js';
+const SYSTEME_SCRIPT_SRC = 'https://easygamersetups.systeme.io/public/remote/page/43240651ef2431140a209af483eecfe0748efd3b.js';
 
 function NewsletterModal({ open, onClose }) {
   const containerRef = useRef(null);
