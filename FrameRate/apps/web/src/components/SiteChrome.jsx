@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X, Gamepad2 } from 'lucide-react';
 import { PLATFORMS } from '@/data/articles';
-const TICKER = ['Shader stutter fix lands in two major engines', 'Xbox full-screen shell rolls out to handhelds', 'PlayStation first-party slate shifts back to single-player', 'Open esports circuits replace franchised leagues', 'Split-screen shipped in more releases than the last three years combined'];
-export function Ticker() {
-  const items = [...TICKER, ...TICKER];
+export function Ticker({
+  headlines = []
+}) {
+  const items = [...headlines, ...headlines];
   return <div className="border-y border-border bg-[hsl(240,10%,8%)] overflow-hidden">
       <div className="flex w-max animate-ticker">
         {items.map((t, i) => <span key={i} className="mono flex items-center gap-3 whitespace-nowrap px-6 py-2 text-[11px] uppercase tracking-widest text-muted-foreground">
@@ -31,7 +32,7 @@ export function Header() {
           <NavLink to="/" end className={link}>Latest</NavLink>
           {PLATFORMS.map(p => <NavLink key={p.id} to={`/platform/${p.id}`} className={link}>{p.label}</NavLink>)}
         </nav>
-        <a href="#newsletter" className="hidden bg-foreground px-4 py-2.5 display text-xs font-extrabold uppercase tracking-wider text-background transition-transform hover:-translate-y-px active:scale-[0.98] md:inline-block">daily brief</a>
+        <a href="#newsletter" className="hidden bg-foreground px-4 py-2.5 display text-xs font-extrabold uppercase tracking-wider text-background transition-transform hover:-translate-y-px active:scale-[0.98] md:inline-block">WEEKLY brief</a>
         <button type="button" aria-label="Toggle menu" onClick={() => setOpen(v => !v)} className="grid h-11 w-11 place-items-center border border-border md:hidden">
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -63,7 +64,7 @@ export function Footer() {
           <p className="mono text-[11px] uppercase tracking-widest text-muted-foreground">Contact</p>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             <li>support@easygamernews.com</li>
-            <li>Editorial desk, Manchester UK</li>
+            <li>{/* PLACEHOLDER: replace with real contact address before launch */}Editorial desk, Manchester UK</li>
           </ul>
         </div>
       </div>

@@ -15,15 +15,25 @@ export function PlatformTag({ id, className = '' }) {
   );
 }
 
+export function PlatformTags({ platforms = [], className = '' }) {
+  return (
+    <>
+      {platforms.map((id) => (
+        <PlatformTag key={id} id={id} className={className} />
+      ))}
+    </>
+  );
+}
+
 export default function ArticleCard({ article, variant = 'stack', index = 0 }) {
-  const p = platformOf(article.platform);
+  const firstPlatform = platformOf((article.platforms || [])[0]);
   if (variant === 'row') {
     return (
       <Link to={`/article/${article.slug}`} className="group flex gap-5 border-b border-border py-6">
         <div className="mono w-8 shrink-0 pt-1 text-sm text-muted-foreground">{String(index + 1).padStart(2, '0')}</div>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-3">
-            <PlatformTag id={article.platform} />
+          <div className="flex flex-wrap items-center gap-3">
+            <PlatformTags platforms={article.platforms} />
             <span className="mono text-[11px] uppercase tracking-widest text-muted-foreground">{formatDate(article.date)}</span>
           </div>
           <h3 className="display mt-2 text-lg font-bold leading-snug transition-colors group-hover:text-primary sm:text-xl">
@@ -47,7 +57,7 @@ export default function ArticleCard({ article, variant = 'stack', index = 0 }) {
     <Link
       to={`/article/${article.slug}`}
       className="group flex flex-col border border-border bg-card transition-transform duration-300 hover:-translate-y-1"
-      style={{ boxShadow: `6px 6px 0 0 ${p ? p.accent + '22' : 'transparent'}` }}
+      style={{ boxShadow: `6px 6px 0 0 ${firstPlatform ? firstPlatform.accent + '22' : 'transparent'}` }}
     >
       <div className="aspect-[3/2] overflow-hidden">
         <img
@@ -58,8 +68,8 @@ export default function ArticleCard({ article, variant = 'stack', index = 0 }) {
         />
       </div>
       <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-center gap-3">
-          <PlatformTag id={article.platform} />
+        <div className="flex flex-wrap items-center gap-3">
+          <PlatformTags platforms={article.platforms} />
           <span className="mono text-[11px] uppercase tracking-widest text-muted-foreground">{article.readTime}</span>
         </div>
         <h3 className="display mt-3 text-xl font-bold leading-tight transition-colors group-hover:text-primary">{article.title}</h3>

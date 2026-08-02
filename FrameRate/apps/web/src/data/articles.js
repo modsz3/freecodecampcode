@@ -7,7 +7,7 @@ export const PLATFORMS = [
 export const articles = [
   {
     slug: 'shader-compilation-finally-solved-on-pc',
-    platform: 'pc',
+    platforms: ['pc'],
     title: 'Shader compilation stutter is finally getting a real fix on PC',
     dek: 'Two major engines now ship precompiled pipeline caches at install time. We tested six games to see whether the frame-time graphs agree.',
     author: 'Marta Kaine',
@@ -24,7 +24,7 @@ export const articles = [
   },
   {
     slug: 'xbox-handheld-strategy',
-    platform: 'xbox',
+    platforms: ['xbox'],
     title: 'Xbox is quietly rebuilding itself around the handheld',
     dek: 'A full-screen console shell, aggressive power profiles, and a library that follows you. The strategy is clearer than the marketing.',
     author: 'Dev Ramanathan',
@@ -40,7 +40,7 @@ export const articles = [
   },
   {
     slug: 'playstation-single-player-bet',
-    platform: 'playstation',
+    platforms: ['playstation'],
     title: 'PlayStation doubles down on the long single-player game',
     dek: 'Three first-party studios have shifted off live-service projects. The slate that replaces them looks a lot like 2018.',
     author: 'Iris Bellamy',
@@ -56,7 +56,7 @@ export const articles = [
   },
   {
     slug: 'esports-league-reset',
-    platform: 'pc',
+    platforms: ['pc'],
     title: 'The franchised esports league is over. What replaces it is messier',
     dek: 'Open circuits, regional qualifiers, and tournament organizers with actual leverage again.',
     author: 'Marta Kaine',
@@ -72,7 +72,7 @@ export const articles = [
   },
   {
     slug: 'couch-co-op-comeback',
-    platform: 'playstation',
+    platforms: ['playstation'],
     title: 'Local co-op is having a genuine comeback, and the numbers back it',
     dek: 'Split-screen shipped in more retail releases this year than in the previous three combined.',
     author: 'Iris Bellamy',
@@ -88,7 +88,7 @@ export const articles = [
   },
   {
     slug: 'game-pass-price-restructure',
-    platform: 'xbox',
+    platforms: ['xbox'],
     title: 'What the subscription price restructure actually changes for players',
     dek: 'Three tiers became two, day-one releases moved, and the cloud tier got quietly better.',
     author: 'Dev Ramanathan',
@@ -104,7 +104,7 @@ export const articles = [
   },
   {
     slug: 'anti-cheat-kernel-debate',
-    platform: 'pc',
+    platforms: ['pc'],
     title: 'The kernel anti-cheat debate is not about cheating anymore',
     dek: 'Players lost the privacy argument years ago. The new fight is about who gets to boot your machine.',
     author: 'Marta Kaine',
@@ -120,7 +120,7 @@ export const articles = [
   },
   {
     slug: 'living-room-setup-guide',
-    platform: 'playstation',
+    platforms: ['playstation'],
     title: 'The 2026 living-room setup guide: HDR, VRR, and what to ignore',
     dek: 'A short list of settings that matter and a much longer list of marketing terms that do not.',
     author: 'Iris Bellamy',

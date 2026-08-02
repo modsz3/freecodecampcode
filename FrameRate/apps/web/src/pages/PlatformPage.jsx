@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useParams } from 'react-router-dom';
 import { Header, Footer, Ticker } from '@/components/SiteChrome';
 import ArticleCard from '@/components/ArticleCard';
-import { articles, platformOf } from '@/data/articles';
+import { platformOf } from '@/data/articles';
+import pb from '@/lib/pocketbaseClient';
 
 const BLURB = {
   pc: 'Benchmarks, drivers, storefronts and the hardware arms race. PC gaming news and performance reporting.',
@@ -14,7 +15,19 @@ const BLURB = {
 const PlatformPage = () => {
   const { platform } = useParams();
   const p = platformOf(platform);
-  const list = articles.filter((a) => a.platform === platform);
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!p) { setLoading(false); return; }
+    pb.collection('articles').getFullList({
+      filter: `status = "published" && platforms ~ "${platform}"`,
+      sort: '-date',
+    })
+      .then(setArticles)
+      .catch((err) => console.error('Failed to load platform articles', err))
+      .finally(() => setLoading(false));
+  }, [platform, p]);
 
   if (!p) {
     return (
@@ -52,14 +65,24 @@ const PlatformPage = () => {
           </div>
         </section>
         <section className="mx-auto max-w-[90rem] px-5 py-12 lg:px-10">
-          {list.length === 0 ? (
+          {loading ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="animate-pulse space-y-3 border border-border p-5">
+                  <div className="h-40 bg-muted rounded" />
+                  <div className="h-4 w-3/4 bg-muted rounded" />
+                  <div className="h-3 w-full bg-muted rounded" />
+                </div>
+              ))}
+            </div>
+          ) : articles.length === 0 ? (
             <p className="border border-dashed border-border p-10 text-center text-muted-foreground">
               No stories filed in this section yet. Check back tomorrow.
             </p>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {list.map((a) => (
-                <ArticleCard key={a.slug} article={a} />
+              {articles.map((a) => (
+                <ArticleCard key={a.id || a.slug} article={a} />
               ))}
             </div>
           )}

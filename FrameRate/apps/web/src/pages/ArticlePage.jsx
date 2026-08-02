@@ -1,16 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Header, Footer } from '@/components/SiteChrome';
-import ArticleCard, { PlatformTag } from '@/components/ArticleCard';
-import { articles, getArticle, formatDate } from '@/data/articles';
+import ArticleCard, { PlatformTags } from '@/components/ArticleCard';
+import { formatDate } from '@/data/articles';
+import { fetchArticleBySlug, fetchPublishedArticles } from '@/lib/articlesApi';
 
 const ArticlePage = () => {
   const { slug } = useParams();
-  const article = getArticle(slug);
+  const [article, setArticle] = useState(null);
+  const [related, setRelated] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  if (!article) {
+  useEffect(() => {
+    setLoading(true);
+    setNotFound(false);
+    fetchArticleBySlug(slug)
+      .then(async (art) => {
+        if (!art) { setNotFound(true); return; }
+        setArticle(art);
+        // Load related articles
+        try {
+          const all = await fetchPublishedArticles();
+          const rel = all.filter(
+            (a) =>
+              a.slug !== art.slug &&
+              (a.platforms || []).some((pid) => (art.platforms || []).includes(pid))
+          ).slice(0, 3);
+          setRelated(rel);
+        } catch (_) {}
+      })
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="grain min-h-screen">
+        <Header />
+        <main className="mx-auto max-w-[56rem] px-5 py-12 lg:py-16">
+          <div className="animate-pulse space-y-6">
+            <div className="h-4 w-24 bg-muted rounded" />
+            <div className="h-12 w-full bg-muted rounded" />
+            <div className="h-6 w-3/4 bg-muted rounded" />
+            <div className="h-64 w-full bg-muted rounded" />
+            <div className="space-y-3">
+              {[...Array(4)].map((_, i) => <div key={i} className="h-4 w-full bg-muted rounded" />)}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (notFound || !article) {
     return (
       <div className="grain flex min-h-screen flex-col">
         <Helmet>
@@ -28,13 +74,15 @@ const ArticlePage = () => {
     );
   }
 
-  const related = articles.filter((a) => a.slug !== article.slug && a.platform === article.platform).slice(0, 3);
+  const bodyArr = Array.isArray(article.body) ? article.body : [];
+  const tagsArr = Array.isArray(article.tags) ? article.tags : [];
+
   const ld = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: article.title,
     description: article.dek,
-    image: [article.image],
+    image: article.image ? [article.image] : [],
     datePublished: article.date,
     author: [{ '@type': 'Person', name: article.author }],
     publisher: { '@type': 'Organization', name: 'EasyGamerNews' },
@@ -49,7 +97,7 @@ const ArticlePage = () => {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={article.title} />
         <meta property="og:description" content={article.dek} />
-        <meta property="og:image" content={article.image} />
+        {article.image && <meta property="og:image" content={article.image} />}
         <script type="application/ld+json">{JSON.stringify(ld)}</script>
       </Helmet>
       <Header />
@@ -59,8 +107,8 @@ const ArticlePage = () => {
             <ArrowLeft className="h-3.5 w-3.5" /> All stories
           </Link>
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <PlatformTag id={article.platform} />
-            {article.tags.map((t) => (
+            <PlatformTags platforms={article.platforms} />
+            {tagsArr.map((t) => (
               <span key={t} className="mono text-[11px] uppercase tracking-widest text-muted-foreground">{t}</span>
             ))}
           </div>
@@ -69,9 +117,11 @@ const ArticlePage = () => {
           <p className="mono mt-5 border-y border-border py-3 text-[11px] uppercase tracking-widest text-muted-foreground">
             By {article.author} &middot; {formatDate(article.date)} &middot; {article.readTime} read
           </p>
-          <img src={article.image} alt={article.title} className="mt-8 w-full border border-border object-cover" />
+          {article.image && (
+            <img src={article.image} alt={article.title} className="mt-8 w-full border border-border object-cover" />
+          )}
           <div className="mt-8 space-y-6">
-            {article.body.map((para, i) => (
+            {bodyArr.map((para, i) => (
               <p key={i} className={`leading-[1.85] ${i === 0 ? 'text-lg' : 'text-base'} text-foreground/85`}>{para}</p>
             ))}
           </div>
@@ -82,7 +132,7 @@ const ArticlePage = () => {
             <div className="mx-auto max-w-[90rem] px-5 py-12 lg:px-10">
               <h2 className="display border-b border-border pb-4 text-2xl font-black uppercase tracking-tight">Related coverage</h2>
               <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {related.map((a) => <ArticleCard key={a.slug} article={a} />)}
+                {related.map((a) => <ArticleCard key={a.id || a.slug} article={a} />)}
               </div>
             </div>
           </section>
