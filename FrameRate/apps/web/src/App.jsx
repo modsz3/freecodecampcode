@@ -4,6 +4,7 @@ import ScrollToTop from './components/ScrollToTop';
 import HomePage from './pages/HomePage';
 import PlatformPage from './pages/PlatformPage';
 import ArticlePage from './pages/ArticlePage';
+import ArchivePage from './pages/ArchivePage';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ArticleEditor from './pages/admin/ArticleEditor';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/platform/:platform" element={<PlatformPage />} />
         <Route path="/article/:slug" element={<ArticlePage />} />
+        <Route path="/archive" element={<ArchivePage />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<RequireAuth><AdminDashboard /></RequireAuth>} />
         <Route path="/admin/new" element={<RequireAuth><ArticleEditor /></RequireAuth>} />

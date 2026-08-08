@@ -18,9 +18,12 @@ const CLEAN_CONTENT_REGEX = {
 };
 
 const EXTRACTION_REGEX = {
-	route: /<Route\s+[^>]*>/g,
+	// `element={<Page />}` puts a `>` inside the tag, so the attribute scan has
+	// to step over brace groups instead of stopping at the first `>`.
+	route: /<Route\s+(?:[^>{]|\{[^}]*\})*\/?>/g,
 	path: /path=["']([^"']+)["']/,
-	element: /element=\{<(\w+)[^}]*\/?\s*>\}/,
+	element: /element=\{([\s\S]*)\}/,
+	elementComponent: /<(\w+)/g,
 	helmet: /<Helmet[^>]*?>([\s\S]*?)<\/Helmet>/i,
 	helmetTest: /<Helmet[\s\S]*?<\/Helmet>/i,
 	title: /<title[^>]*?>\s*(.*?)\s*<\/title>/i,
@@ -62,7 +65,13 @@ function extractRoutes(appJsxPath) {
 			const isIndex = routeTag.includes('index');
 
 			if (elementMatch) {
-				const componentName = elementMatch[1];
+				// A guarded route reads `element={<ProtectedRoute><SettingsPage /></ProtectedRoute>}`,
+				// so the page is the innermost component rather than the first one.
+				const componentNames = [...elementMatch[1].matchAll(EXTRACTION_REGEX.elementComponent)];
+				const componentName = componentNames.at(-1)?.[1];
+
+				if (!componentName) continue;
+
 				let routePath;
 
 				if (isIndex) {
@@ -103,7 +112,7 @@ function extractHelmetData(content, filePath, routes) {
 	const description = cleanText(descMatch?.[1]);
 
 	const fileName = path.basename(filePath, path.extname(filePath));
-	const url = routes.length && routes.has(fileName)
+	const url = routes.size && routes.has(fileName)
 		? routes.get(fileName)
 		: generateFallbackUrl(fileName);
 
@@ -151,7 +160,7 @@ function main() {
 	let pages = [];
 
 	if (!fs.existsSync(pagesDir)) {
-		pages.push(processPageFile(appJsxPath, []))
+		pages.push(processPageFile(appJsxPath, new Map()))
 		pages = pages.filter(Boolean);
 	} else {
 		const routes = extractRoutes(appJsxPath);

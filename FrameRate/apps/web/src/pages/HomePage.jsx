@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { Header, Footer, Ticker } from '@/components/SiteChrome';
 import ArticleCard, { PlatformTags } from '@/components/ArticleCard';
 import { PLATFORMS, formatDate } from '@/data/articles';
-import { fetchPublishedArticles } from '@/lib/articlesApi';
+import { fetchPublishedArticles, fetchCurrentBatchArticles } from '@/lib/articlesApi';
 
 const ArticleSkeleton = () => (
   <div className="animate-pulse space-y-3 border-b border-border py-4">
@@ -17,18 +17,24 @@ const ArticleSkeleton = () => (
 
 const HomePage = () => {
   const [articles, setArticles] = useState([]);
+  const [currentBatch, setCurrentBatch] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPublishedArticles()
-      .then(setArticles)
+    Promise.all([fetchPublishedArticles(), fetchCurrentBatchArticles()])
+      .then(([all, batch]) => {
+        setArticles(all);
+        setCurrentBatch(batch);
+      })
       .catch((err) => console.error('Failed to load articles', err))
       .finally(() => setLoading(false));
   }, []);
 
-  const lead = articles[0];
+  // Lead story and "also this week" pull only from the current (most recent)
+  // publishing batch. "More from the desk" still uses all published articles.
+  const lead = currentBatch[0];
   const MAX_SECONDARY = 10;
-  const secondary = articles.slice(1, 1 + MAX_SECONDARY);
+  const secondary = currentBatch.slice(1, 1 + MAX_SECONDARY);
   const rest = articles.slice(3);
   const tickerHeadlines = articles.slice(0, 8).map((a) => a.title);
 

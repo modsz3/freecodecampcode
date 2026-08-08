@@ -3,8 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { Menu, X, Gamepad2 } from 'lucide-react';
 import { PLATFORMS } from '@/data/articles';
 
-const SYSTEME_SCRIPT_ID = 'form-script-tag-24940342';
-const SYSTEME_SCRIPT_SRC = 'https://easygamersetups.systeme.io/public/remote/page/43240651ef2431140a209af483eecfe0748efd3b.js';
+const SYSTEME_SCRIPT_ID = 'form-script-tag-25021418';
+const SYSTEME_SCRIPT_SRC = 'https://ed94-support.systeme.io/public/remote/page/43423774a5447d32501d8e26cb915ba34444a769.js';
 
 function NewsletterModal({ open, onClose }) {
   const containerRef = useRef(null);
@@ -101,6 +101,7 @@ export function Header() {
             {PLATFORMS.map(p => (
               <NavLink key={p.id} to={`/platform/${p.id}`} className={link}>{p.label}</NavLink>
             ))}
+            <NavLink to="/archive" className={link}>Archive</NavLink>
           </nav>
           <button
             type="button"
@@ -122,6 +123,7 @@ export function Header() {
                   {p.label}
                 </NavLink>
               ))}
+              <NavLink to="/archive" onClick={() => setMenuOpen(false)} className="display py-3 text-base font-bold uppercase">Archive</NavLink>
               <button
                 type="button"
                 onClick={() => { setMenuOpen(false); setModalOpen(true); }}
@@ -149,6 +151,7 @@ export function Footer() {
           <p className="mono text-[11px] uppercase tracking-widest text-muted-foreground">Platforms</p>
           <ul className="mt-3 space-y-2 text-sm">
             {PLATFORMS.map(p => <li key={p.id}><Link className="hover:text-primary" to={`/platform/${p.id}`}>{p.label} news</Link></li>)}
+            <li><Link className="hover:text-primary" to="/archive">Archive</Link></li>
           </ul>
         </div>
         <div>
